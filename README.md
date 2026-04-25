@@ -10,8 +10,7 @@ The project is designed to make cybersecurity concepts practical, visual, and en
 
 ## 🌐 Live Demo
 
-👉 https://your-username.github.io/CyberBattleLab/  
-*(Replace with your hosted link)*
+👉 https://falak8484.github.io/cyneros-simulator/  
 
 ---
 
