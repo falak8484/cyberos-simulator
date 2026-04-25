@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CyberOS Final Boss</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div id="app">
+
+    <!-- SCREEN 1: Role Selection -->
+    <section id="landing" class="screen active">
+      <div class="hero-card">
+        <div class="logo-orb">◎</div>
+        <h1>CyberOS Practice System</h1>
+        <p>A virtual Linux-style cyber training game for beginners. Everything is simulated safely inside the browser.</p>
+        <div class="mode-grid">
+          <button class="mode-card" data-role="attacker">
+            <span>⚔️</span>
+            <b>Play as Attacker</b>
+            <small>Explore files, uncover clues, practice commands.</small>
+          </button>
+          <button class="mode-card" data-role="protector">
+            <span>🛡️</span>
+            <b>Play as Protector</b>
+            <small>Analyze logs, mark threats, protect the system.</small>
+          </button>
+        </div>
+      </div>
+      <div style="position:absolute; bottom:30px; left:0; width:100%; text-align:center; font-size:20px; color:#fff; font-weight:600;">
+  ✨ Made by Falak Shaikh ✨
+</div>
+    </section>
+
+    <!-- SCREEN 2: Mode Selection (NEW) -->
+    <section id="modeSelect" class="screen">
+      <div class="hero-card">
+        <button class="back-btn" id="backToLanding">← Back</button>
+        <div class="logo-orb" style="font-size:32px">🎮</div>
+        <h2 style="font-size:36px;margin:10px 0">Choose Your Mode</h2>
+        <p>How do you want to play today?</p>
+        <div class="mode-grid">
+          <button class="mode-card" id="pickMissions">
+            <span>🎯</span>
+            <b>Missions Mode</b>
+            <small>Follow guided storylines — Phishing, DDoS, Malware, Insider Threat. Clear steps, beginner-friendly.</small>
+          </button>
+          <button class="mode-card" id="pickFree">
+            <span>🧠</span>
+            <b>Free Mode</b>
+            <small>Explore the virtual OS at your own pace. No rules — just curiosity and commands.</small>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: Account Setup -->
+    <section id="setup" class="screen">
+      <div class="setup-card" id="setupCard">
+        <button class="back-btn" id="backToMode">← Back</button>
+        <h2 id="setupTitle">Create Your Virtual Session</h2>
+        <p id="setupDesc">This account is local-only and stored in this browser for demo purposes.</p>
+        <input id="username" placeholder="Username e.g. falak"/>
+        <input id="pin" type="password" placeholder="4 digit demo PIN"/>
+        <button id="createSession">Create / Login</button>
+        <button id="guestSession" class="ghost">Continue as Guest</button>
+        <div id="authMsg"></div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4: Boot -->
+    <section id="boot" class="screen">
+      <div class="boot-box">
+        <div class="boot-logo">CyberOS</div>
+        <div id="bootLines"></div>
+        <div class="boot-bar"><span id="bootFill"></span></div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5: Desktop -->
+    <main id="desktop" class="desktop hidden">
+      <div class="wallpaper-glow one"></div>
+      <div class="wallpaper-glow two"></div>
+      <div class="wallpaper-glow three"></div>
+
+      <header class="topbar">
+        <div class="top-left">
+          <button class="topbar-back-btn" id="backToModeBtn">← Mode</button>
+          <b>CyberOS</b>
+          <span id="roleBadge">Mode</span>
+          <span id="modeBadge">FREE</span>
+          <span id="safeBadge">SIMULATED ONLY</span>
+        </div>
+        <div class="top-right">
+          <span id="scoreBadge">Score: 0</span>
+          <span>Wi‑Fi ▰▰▰</span>
+          <span>Battery 91%</span>
+          <span id="clock"></span>
+        </div>
+      </header>
+
+      <section class="desktop-icons">
+        <div class="desk-icon" data-open="terminal">🖥️<span>Terminal</span></div>
+        <div class="desk-icon" data-open="files">📁<span>Files</span></div>
+        <div class="desk-icon" data-open="missions">🎯<span>Missions</span></div>
+        <div class="desk-icon" data-open="logs">📜<span>Logs</span></div>
+        <div class="desk-icon" data-open="browser">🌐<span>Web</span></div>
+        <div class="desk-icon" data-open="gallery">🖼️<span>Gallery</span></div>
+        <div class="desk-icon" data-open="notes">📝<span>Notes</span></div>
+      </section>
+
+      <aside class="dock">
+        <button data-open="terminal">🖥️</button>
+        <button data-open="files">📁</button>
+        <button data-open="missions">🎯</button>
+        <button data-open="logs">📜</button>
+        <button data-open="browser">🌐</button>
+        <button data-open="gallery">🖼️</button>
+      </aside>
+
+      <div id="toast"></div>
+
+      <section id="terminal" class="window hidden" style="left:120px;top:90px;width:640px;height:430px">
+        <div class="window-head"><span>Terminal — Virtual Shell</span><div><button class="min">—</button><button class="close">×</button></div></div>
+        <div class="terminal-body" id="terminalOut"></div>
+        <div class="terminal-input-row"><span id="prompt">user@cyberos:~$</span><input id="terminalInput" autocomplete="off" spellcheck="false"/></div>
+      </section>
+
+      <section id="files" class="window hidden" style="left:210px;top:120px;width:680px;height:470px">
+        <div class="window-head"><span>File Manager</span><div><button class="min">—</button><button class="close">×</button></div></div>
+        <div class="file-layout">
+          <aside id="folderList"></aside>
+          <main>
+            <div class="pathbar" id="filePath"></div>
+            <div id="fileGrid" class="file-grid"></div>
+            <pre id="filePreview" class="file-preview">Select a file to preview.</pre>
+          </main>
+        </div>
+      </section>
+
+      <section id="missions" class="window hidden" style="left:280px;top:90px;width:620px;height:560px">
+        <div class="window-head"><span>Mission Center</span><div><button class="min">—</button><button class="close">×</button></div></div>
+        <div id="missionContent" class="mission-content"></div>
+      </section>
+
+      <section id="logs" class="window hidden" style="left:340px;top:140px;width:620px;height:430px">
+        <div class="window-head"><span id="logWindowTitle">Log Viewer</span><div><button class="min">—</button><button class="close">×</button></div></div>
+        <div class="log-toolbar" id="logToolbar">
+          <button id="analyzeLogsBtn">Analyze Logs</button>
+          <button id="markIpBtn" class="prot-only">Mark 10.0.0.77 as Malicious</button>
+          <button id="blockIpBtn" class="prot-only">Block IP</button>
+        </div>
+        <pre id="logContent" class="log-content"></pre>
+      </section>
+
+      <section id="browser" class="window hidden" style="left:160px;top:130px;width:690px;height:470px">
+        <div class="window-head"><span>CyberOS Web Store</span><div><button class="min">—</button><button class="close">×</button></div></div>
+        <div class="browser-bar"><input id="searchWeb" placeholder="Search wallpapers, cute characters, sample logs..."/><button id="searchBtn">Search</button></div>
+        <div id="downloadList" class="download-list"></div>
+        <div id="downloadProgress" class="download-progress hidden"><span></span></div>
+      </section>
+
+      <section id="gallery" class="window hidden" style="left:430px;top:100px;width:560px;height:430px">
+        <div class="window-head"><span>Gallery</span><div><button class="min">—</button><button class="close">×</button></div></div>
+        <div id="galleryGrid" class="gallery-grid"></div>
+      </section>
+
+      <section id="notes" class="window hidden" style="left:520px;top:150px;width:440px;height:360px">
+        <div class="window-head"><span>Notes</span><div><button class="min">—</button><button class="close">×</button></div></div>
+        <textarea id="notesArea"></textarea>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+
+  <footer style="text-align:center; padding:16px; font-size:14px; color:#777;">
+  Made by <strong>Falak Shaikh</strong> ✨
+</footer>
+
+</body>
+</html>
